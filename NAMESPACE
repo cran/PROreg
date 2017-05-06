@@ -1,0 +1,38 @@
+
+import(RColorBrewer)
+import(fmsb)
+import(car)
+import(matrixcalc)
+import(rootSolve)
+importFrom("numDeriv","grad")
+import(Matrix)
+importFrom("stats", "dbinom", "formula", "model.frame", "model.matrix",
+             "model.response", "pchisq", "pnorm", "printCoefmat", "pt",
+             "rbeta", "rbinom", "runif", "uniroot")
+
+export(rBB,dBB,rBI,dBI,SF36rec,HRQoLplot,BIest,print.BIest,BBest,print.BBest,summary.BBest,print.summary.BBest,BIiwls,
+BIreg,print.BIreg,summary.BIreg,print.summary.BIreg,
+BBreg,print.BBreg,summary.BBreg,print.summary.BBreg,
+BImm,print.BImm,summary.BImm,print.summary.BImm,
+BBmm,print.BBmm,summary.BBmm,print.summary.BBmm,
+BBest,print.BBest,summary.BBest,print.summary.BBest)
+
+
+S3method(print, BIest)
+S3method(print, BBest)
+S3method(print, BIreg)
+S3method(print, BBreg)
+S3method(print, BImm)
+S3method(print, BBmm)
+
+S3method(summary, BBest)
+S3method(summary, BIreg)
+S3method(summary, BBreg)
+S3method(summary, BImm)
+S3method(summary, BBmm)
+
+S3method(print, summary.BBest)
+S3method(print, summary.BIreg)
+S3method(print, summary.BBreg)
+S3method(print, summary.BImm)
+S3method(print, summary.BBmm)
