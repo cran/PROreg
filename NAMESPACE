@@ -5,6 +5,7 @@ import(car)
 import(matrixcalc)
 import(rootSolve)
 importFrom("numDeriv","grad")
+importFrom("stats", "optim")
 import(Matrix)
 importFrom("stats", "dbinom", "formula", "model.frame", "model.matrix",
              "model.response", "pchisq", "pnorm", "printCoefmat", "pt",

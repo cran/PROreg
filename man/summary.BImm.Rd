@@ -25,7 +25,7 @@ The function performs statistical significance hypothesis about the estimated fi
 
 \value{
   \code{summary.BImm} returns an object of class "\code{summary.BImm}".
-  
+
   \item{fixed.coefficients}{ a table with all the relevant information about the significance of the fixed effects of the model. It includes the estimations, the standard errors of the estimations, the test-statistics and the p-values.}
   \item{random.coef}{ predicted random effects of the regression.}
   \item{sigma.table}{ a table which inlcudes the estimation and standard errors of the parameters which the variance-covariance matrix of the random effects consists of.}
@@ -64,7 +64,8 @@ Pawitan Y. (2001): In All Likelihood: Statistical Modelling and Inference Using 
 
 }
 
-\keyword{matrixcalc, rootSolve}
+\concept{matrixcalc}
+\concept{rootSolve}
 
 \seealso{
 \code{\link{BImm}}

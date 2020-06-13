@@ -35,7 +35,7 @@ The estimation procedure is done by likelihood approximation, via iteartive weig
 
 \value{
   \code{BImm} returns an object of class "\code{BImm}".
-  
+
   The function \code{summary} (i.e., \code{summary.BImm}) can be used to obtain or print a summary of the results.
 
   \item{fixed.coef}{ estimated value of the fixed coefficients in the regression.}
@@ -79,7 +79,8 @@ Pawitan Y. (2001): In All Likelihood: Statistical Modelling and Inference Using 
 
 }
 
-\keyword{matrixcalc, rootSolve}
+\concept{matrixcalc}
+\concept{rootSolve}
 
 \examples{
 set.seed(5)

@@ -25,7 +25,7 @@ The function performs statistical significance hypothesis about the estimated fi
 
 \value{
   \code{summary.BBmm} returns an object of class "\code{summary.BBmm}".
-  
+
   \item{fixed.coefficients}{ a table with all the relevant information about the significance of the fixed effects estimates in the model. It includes the estimates, the standard errors of the estimates, the test-statistics and the p-values.}
   \item{sigma.table}{ a table which inlcudes the estimates and the standard errors of the estimates of the random effects variance parameters.}
   \item{psi.table}{ a table which includes the estimate and the standard errors of the estimate of the logarithm of the dispersion parameter of the conditional beta-binomial distribution.}
@@ -60,10 +60,11 @@ Breslow N. E. & Calyton D. G. (1993): Approximate Inference in Generalized Linea
 Lee Y. & Nelder J. A. (1996): Hierarchical generalized linear models, \emph{Journal of the Royal Statistical
 Society. Series B}, \bold{58}, 619-678
 
-Najera-Zuloaga J., Lee D.-J. & Arostegui I. (2017): Comparison of beta-binomial regression model approaches to analyze health related quality of life data, \emph{Statistical Methods in Medical Research}, DOI: 10.1177/0962280217690413 
+Najera-Zuloaga J., Lee D.-J. & Arostegui I. (2017): Comparison of beta-binomial regression model approaches to analyze health related quality of life data, \emph{Statistical Methods in Medical Research}, DOI: 10.1177/0962280217690413
 }
 
-\keyword{rootSolve, numDeriv }
+\concept{rootSolve}
+\concept{numDeriv}
 \seealso{
 The \code{\link{multiroot}} and \code{\link{uniroot}} functions of the R-package \code{rootSolve} for the general Newton-Raphson algorithm.
 

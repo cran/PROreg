@@ -14,19 +14,23 @@ The estimation of the parameters can also be done by means of two approaches: (i
 }
 
 \usage{
-BBmm(fixed.formula,random.formula,Z=NULL,nRandComp=NULL,m,data,
-      method="BB-NR",maxiter=100)
+BBmm(fixed.formula,X,y,random.formula,Z=NULL,nRandComp=NULL,m,data,
+      method="NR",maxiter=50,show=FALSE,nDim=1)
 }
 
 \arguments{
-\item{fixed.formula}{ an object of class \code{"formula"} (or one that can be coerced to that class): a symbolic description of the fixed part of the model to be fitted.}
+\item{fixed.formula}{ an object of class \code{"formula"} (or one that can be coerced to that class): a symbolic description of the fixed part of the model to be fitted. It must be specified in cases where the model matrix of the fixed effects \code{X} and the outcome variable \code{y} are not specified.}
+\item{X}{ a matrix class object containing the covariate structure of the fixed part of the model to be fitted. If the \code{fixed.formula} argument is specified this argument should not be defined, as we will be specifying twice the fixed structure of the model.}
+\item{y}{ a vector containing the outcome variable(s). If joint analysis is expected, the outcome variables must be listed one after another in a vector.}
 \item{random.formula}{ an object of class \code{"formula"} (or one that can be coerced to that class): a symbolic description of the random part of the model to be fitted. It must be specified in cases where the model matrix of the random effects \code{Z} is not determined.}
 \item{Z}{ the design matrix of the random effects. If the \code{random.formula} argument is specified this argument should not be specified, as we will be specifying twice the random structure of the model.}
 \item{nRandComp}{ the number of random effects in each random component of the model. It must be especified as a vector, where the 'i'th value must correspond with the number of random effects of the 'i'th random component. It must be only determined when we specify the random structure of the model by the model matrix of the random effects, \code{Z}.}
 \item{m}{ maximum score number in each beta-binomial observation.}
 \item{data}{ an optional data frame, list or environment (or object coercible by \code{as.data.frame} to a data frame) containing the variables in the model. If not found in data, the variables are taken from environment(formula).}
-\item{method}{ the methodology for performing the estimation of the parameters. Options "BB-NR" or "rootSolve". Default "BB-NR".}
-\item{maxiter}{ the maximum number of iterations in the parameters estimation algorithm. Default 100.}
+\item{method}{ the methodology for performing the estimation of the parameters. Options "NR" or "Delta". Default "NR".}
+\item{maxiter}{ the maximum number of iterations in the parameters estimation algorithm. Default 50.}
+\item{show}{ logical parameter. If \code{TRUE}, the step by step optimization process will be shown in the screen. \code{FALSE} by default.}
+\item{nDim}{ number of dimensions/dependent outcome variables involved in the multidimensional analysis. \code{nDim=1} by default.}
 }
 
 \details{
@@ -50,7 +54,7 @@ The method iterates between both estimation processes until convergence is reach
 
 \value{
   \code{BBmm} returns an object of class "\code{BBmm}".
-  
+
   The function \code{summary} (i.e., \code{summary.BBmm}) can be used to obtain or print a summary of the results..
 
   \item{fixed.coef}{ estimated value of the fixed coefficients of the regression.}
@@ -97,10 +101,12 @@ Breslow N. E. & Calyton D. G. (1993): Approximate Inference in Generalized Linea
 Lee Y. & Nelder J. A. (1996): Hierarchical generalized linear models, \emph{Journal of the Royal Statistical
 Society. Series B}, \bold{58}, 619-678
 
-Najera-Zuloaga J., Lee D.-J. & Arostegui I. (2017): Comparison of beta-binomial regression model approaches to analyze health related quality of life data, \emph{Statistical Methods in Medical Research}. DOI: 10.1177/0962280217690413 
+Najera-Zuloaga J., Lee D.-J. & Arostegui I. (2017): Comparison of beta-binomial regression model approaches to analyze health related quality of life data, \emph{Statistical Methods in Medical Research}. DOI: 10.1177/0962280217690413
 }
 
-\keyword{rootSolve, numDeriv }
+\concept{rootSolve}
+\concept{numDeriv}
+
 \seealso{
 The \code{\link{multiroot}} and \code{\link{uniroot}} functions of the R-package \code{rootSolve} for the general Newton-Raphson algorithm.
 }
