@@ -6,7 +6,7 @@ Beta-binomial mixed-effects model
 }
 
 \description{
-\code{BBmm} function performs beta-binomial mixed-effects models, i.e., it allows the inclusion of gaussian random effects in the linear predictor of a logitic beta-binomial regression model.
+\code{BBmm} function performs beta-binomial mixed-effects models, i.e., it allows the inclusion of gaussian random effects in the linear predictor of a logistic beta-binomial regression model.
 
 The structure of the random part of the model can be expecified by two different ways: (i) determining the \code{random.formula} argument, or (ii) especifying the model matrix of the random effects, \code{Z}, and determining the number of random effects in each random component, \code{nRandComp}.
 
@@ -34,20 +34,20 @@ BBmm(fixed.formula,X,y,random.formula,Z=NULL,nRandComp=NULL,m,data,
 }
 
 \details{
-\code{BBmm} function performs beta-binomial mixed effects models. It extends the beta-binomial logistic regression to the inclusion of random effects in the linear predictor of the model. The model is defined as, conditional on some gaussian random effects \eqn{u} the response variable \eqn{y} follows a beta-binomial distribution of parameters \eqn{m}, \eqn{p} and \eqn{phi},
-\deqn{y|u \sim BB(m,p,phi), u \sim N(0,D)}
+\code{BBmm} function performs beta-binomial mixed effects models. It extends the beta-binomial logistic regression to the inclusion of random effects in the linear predictor of the model. The model is defined as, conditional on some gaussian random effects \eqn{u} the response variable \eqn{y} follows a beta-binomial distribution of parameters \eqn{m}, \eqn{p} and \eqn{\phi},
+\deqn{y|u ~ BB(m,p,\phi), u ~ N(0,D)}
 where
-\deqn{log(p/(1-p))=X*beta+Z*u}
+\deqn{log(p/(1-p))=X*\beta+Z*u}
 and \eqn{D} is determined by some dispersion parameters icluded in the parameter vector \eqn{theta}.
 
-The estimation of the regression paramters \eqn{beta} and the prediction of the random effects \eqn{u} is done via the extended likelihood, where the marginal likelihood is approximated to the h-likelihood by a first order Laplace approximation,
-\deqn{h=f(y|beta,u,theta)+f(u|theta)}
+The estimation of the regression parameters \eqn{\beta} and the prediction of the random effects \eqn{u} is done via the extended likelihood, where the marginal likelihood is approximated to the h-likelihood by a first order Laplace approximation,
+\deqn{h=f(y|\beta,u,\theta)+f(u|\theta)}
 The previous formula do not have a closed form and numerical methods are needed for the estimation precedure. Two approches are available in the function in order to perform the fixed and random effects estimation: (i) A special case of a Newton-Raphson algorithm developed for beta-binomial mixed-effects model estimations, and (ii) the general Newton-Raphson algorithm available in R-package \code{rootSolve}.
 
 
 On the other hand, the estimation of dispersion parameters by the h-likelihood can be bias due to the estimation of the regression parameters. Consequenlty, a penalization of the h-likelihood must be performed to get an unbiased profile h-likelihood of the dispersion parameters. Lee and Nelder (1996) proposed the adjusted profile h-likelihood, where the following penalization is applied,
-\deqn{h(theta)=h+(1/2)*log[det(2\pi H^{-1})]}
-where \eqn{H} is the Hessian matrix of the model, and the terms \eqn{beta} and \eqn{u} involved in the previous formula are replaced by their estimates.
+\deqn{h(\theta)=h+(1/2)*log[det(2\pi H^{-1})]}
+where \eqn{H} is the Hessian matrix of the model, and the terms \eqn{\beta} and \eqn{u} involved in the previous formula are replaced by their estimates.
 
 The method iterates between both estimation processes until convergence is reached.
 }
@@ -96,23 +96,24 @@ I. Arostegui
 }
 
 \references{
-Breslow N. E. & Calyton D. G. (1993): Approximate Inference in Generalized Linear Mixed Models, \emph{Journal of the American Statistical Association}, \bold{88}, 9-25
-
 Lee Y. & Nelder J. A. (1996): Hierarchical generalized linear models, \emph{Journal of the Royal Statistical
 Society. Series B}, \bold{58}, 619-678
 
-Najera-Zuloaga J., Lee D.-J. & Arostegui I. (2017): Comparison of beta-binomial regression model approaches to analyze health related quality of life data, \emph{Statistical Methods in Medical Research}. DOI: 10.1177/0962280217690413
+Najera-Zuloaga J., Lee D.-J. & Arostegui I. (2018): Comparison of beta-binomial regression model approaches to analyze health related quality of life data. \emph{Statistical Methods in Medical Research}, 27(10), 2989-3009.
+
+Najera-Zuloaga J., Lee D.-J. & Arostegui, I. (2019): A beta-binomial mixed effects model approach for analysing longitudinal discrete and bounded outcomes. \emph{Biometrical Journal}, 61(3), 600-615.
 }
 
 \concept{rootSolve}
 \concept{numDeriv}
+\concept{Matrix}
 
 \seealso{
 The \code{\link{multiroot}} and \code{\link{uniroot}} functions of the R-package \code{rootSolve} for the general Newton-Raphson algorithm.
 }
 
 \examples{
-set.seed(14)
+set.seed(7)
 
 # Defining the parameters
 k <- 100
@@ -139,4 +140,52 @@ dat$z <- as.factor(dat$z)
 # Apply the model
 model <- BBmm(fixed.formula = y~x,random.formula = ~z,m=m,data=dat)
 model
+
+#---------#
+
+# Multidimensional regression with 2 dimensions
+
+set.seed(5)
+nId <- 25
+
+# Simulation
+
+m <- 10
+beta1 <- c(1,-0.5)
+beta2 <- c(-1,0.5)
+beta <- cbind(beta1,beta2)
+
+x1 <- rnorm(nId, 1,2)
+X1 <- model.matrix(~x1)
+x2 <- rnorm(nId, -1,1)
+X2 <- model.matrix(~x2)
+
+sigma <- 0.6
+u <- rnorm(nId,0,sigma)
+
+eta1 <- beta1[1]+x1*beta1[2]+u
+p1 <- 1/(1+exp(-eta1))
+eta2 <- beta2[1]+x2*beta2[2]+u
+p2 <- 1/(1+exp(-eta2))
+
+phi1 <- 0.3
+phi2 <- 1
+phi <- c(phi1,phi2)
+
+y1 <- rBB(nId,m,p1,phi1)
+y2 <- rBB(nId,m,p2,phi2)
+y <- c(y1,y2)
+
+# Define matrices
+
+X <- Matrix::bdiag(X1,X2)
+X <- as.matrix(X)
+Z. <- diag(nId)
+Z <- kronecker(rbind(1,1),Z.)
+
+# Fit the model
+
+Model.multi <- BBmm(X=X,y=y,Z=Z,nRandComp = nId,m=m,nDim=2)
+Model.multi
+
 }

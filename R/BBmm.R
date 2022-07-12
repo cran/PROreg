@@ -87,16 +87,6 @@ BBmm <- function(fixed.formula=NULL, X=NULL,y=NULL,random.formula=NULL,Z=NULL,nR
     stop("the dependent variable must have the same number of observations in all the dimensions")
   }
   
-  if (sum(as.integer(y)==y)==length(y)){
-  } else {
-    stop("y must be integer")
-  }
-  
-  if ((length(m)==1) | (length(m)==length(y))){
-  } else{
-    stop("m must be a number, or a vector of the length of y")
-  }
-  
   #Balanced data
   if(length(m)==1){
     balanced <- "yes"
@@ -108,6 +98,16 @@ BBmm <- function(fixed.formula=NULL, X=NULL,y=NULL,random.formula=NULL,Z=NULL,nR
     } else{
       balanced <- "no"
     }
+  }
+  
+  if (sum(as.integer(y)==y)==length(y)){
+  } else {
+    stop("y must be integer")
+  }
+  
+  if ((length(m)==1) | (length(m)==length(y))){
+  } else{
+    stop("m must be a number, or a vector of the length of y")
   }
   
   if (max(y-m)>0 | min(y) < 0){
@@ -371,7 +371,7 @@ BBmm <- function(fixed.formula=NULL, X=NULL,y=NULL,random.formula=NULL,Z=NULL,nR
               deviance=deviance,df=df,null.deviance=null.deviance,null.df=null.df,
               nRand=nRand,nComp=nComp,nRandComp=nRandComp,namesRand=namesRand,
               iter=iter,nObs=nObs,
-              y=y,X=X,Z=Z,D.=D.,
+              y=y,X=X,Z=Z,D=D,
               balanced=balanced,m=m,nDim=nDim)
   
   class(out) <- "BBmm"

@@ -186,7 +186,7 @@ BBreg <- function(formula,m,data=list(),maxiter=100){
       return(out)
     }
     # We find out the mle, psi, based on the profile likelihood
-    psi.mle <- uniroot(Lpsi,lower=-20,upper=4,maxiter=maxiter)
+    psi.mle <- uniroot(Lpsi,lower=-20,upper=4,maxiter=maxiter,extendInt = "yes")
     psi <- psi.mle$root
     phi <- exp(psi)
     
