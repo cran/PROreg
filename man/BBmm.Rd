@@ -10,12 +10,12 @@ Beta-binomial mixed-effects model
 
 The structure of the random part of the model can be expecified by two different ways: (i) determining the \code{random.formula} argument, or (ii) especifying the model matrix of the random effects, \code{Z}, and determining the number of random effects in each random component, \code{nRandComp}.
 
-The estimation of the parameters can also be done by means of two approaches: (i) BB-NR, special Newton-Raphson algorithm developed for beta-binomial mixed-effect models, and (ii) using the \code{rootSolve} R-package.
+For the estimation of the parameters the joint log-likelihood can be optimized by means of two different approaches: (i) BB-Delta, specific Delta algorithm developed for beta-binomial mixed-effect regression models, and (ii) usual Newton-Raphson method.
 }
 
 \usage{
 BBmm(fixed.formula,X,y,random.formula,Z=NULL,nRandComp=NULL,m,data,
-      method="NR",maxiter=50,show=FALSE,nDim=1)
+      method="BB-Delta",maxiter=50,show=FALSE,nDim=1,tolerance=10^(-6))
 }
 
 \arguments{
@@ -27,29 +27,29 @@ BBmm(fixed.formula,X,y,random.formula,Z=NULL,nRandComp=NULL,m,data,
 \item{nRandComp}{ the number of random effects in each random component of the model. It must be especified as a vector, where the 'i'th value must correspond with the number of random effects of the 'i'th random component. It must be only determined when we specify the random structure of the model by the model matrix of the random effects, \code{Z}.}
 \item{m}{ maximum score number in each beta-binomial observation.}
 \item{data}{ an optional data frame, list or environment (or object coercible by \code{as.data.frame} to a data frame) containing the variables in the model. If not found in data, the variables are taken from environment(formula).}
-\item{method}{ the methodology for performing the estimation of the parameters. Options "NR" or "Delta". Default "NR".}
+\item{method}{ the methodology for performing the estimation of the parameters. Options "BB-Delta" or "NR". Default "BB-Delta".}
 \item{maxiter}{ the maximum number of iterations in the parameters estimation algorithm. Default 50.}
 \item{show}{ logical parameter. If \code{TRUE}, the step by step optimization process will be shown in the screen. \code{FALSE} by default.}
-\item{nDim}{ number of dimensions/dependent outcome variables involved in the multidimensional analysis. \code{nDim=1} by default.}
+\item{nDim}{ number of response outcome variables involved in the multidimensional analysis. \code{nDim=1} by default.}
+\item{tolerance}{ tolerance of the estimated linear predictor in the estimation process. \code{tolerance=10^(-6)} by default.}
 }
 
 \details{
-\code{BBmm} function performs beta-binomial mixed effects models. It extends the beta-binomial logistic regression to the inclusion of random effects in the linear predictor of the model. The model is defined as, conditional on some gaussian random effects \eqn{u} the response variable \eqn{y} follows a beta-binomial distribution of parameters \eqn{m}, \eqn{p} and \eqn{\phi},
-\deqn{y|u ~ BB(m,p,\phi), u ~ N(0,D)}
-where
-\deqn{log(p/(1-p))=X*\beta+Z*u}
-and \eqn{D} is determined by some dispersion parameters icluded in the parameter vector \eqn{theta}.
+\code{BBmm} function performs beta-binomial mixed-effects regression models. It extends the beta-binomial regression model including gaussian random effects in the linear predictor. The model is defined as, conditional on some gaussian random effects \eqn{u}, the response variable \eqn{y} follows a beta-binomial distribution with parameters \eqn{m}, \eqn{p} and \eqn{\phi},
+\deqn{y|u \sim BB(m,p,\phi), \text{and } u \sim N(0,D)}
+where the regression model is defined as,
+\deqn{\log(p/(1-p))=X*\beta+Z*u}
+and \eqn{D} is determined by some dispersion parameters icluded in the parameter vector \eqn{\theta}.
 
 The estimation of the regression parameters \eqn{\beta} and the prediction of the random effects \eqn{u} is done via the extended likelihood, where the marginal likelihood is approximated to the h-likelihood by a first order Laplace approximation,
-\deqn{h=f(y|\beta,u,\theta)+f(u|\theta)}
-The previous formula do not have a closed form and numerical methods are needed for the estimation precedure. Two approches are available in the function in order to perform the fixed and random effects estimation: (i) A special case of a Newton-Raphson algorithm developed for beta-binomial mixed-effects model estimations, and (ii) the general Newton-Raphson algorithm available in R-package \code{rootSolve}.
+\deqn{h=f(y|\beta,u,\theta)+f(u|\theta).}
+The previous formula do not have a closed form and numerical methods are needed for the estimation precedure. Two approches are available in the function in order to perform the fixed and random effects estimation: (i) A special case of the Delta algorithm developed for beta-binomial mixed-effects model estimations, and (ii) the general Newton-Raphson algorithm available in R-package \code{rootSolve}.
 
+On the other hand, the estimation of dispersion parameters by the h-likelihood can be bias due to the previous estimation of the regression parameters. Consequenlty, a penalization of the h-likelihood must be performed to get unbiased estimations of the dispersion parameters. Lee and Nelder (1996) proposed the adjusted profile h-likelihood, where the following penalization is applied,
+\deqn{h(\theta)=h+(1/2)*\log[det(2\pi H^{-1})],}
+being \eqn{H} the Hessian matrix of the model, replacing the terms \eqn{\beta} and \eqn{u} involved in the previous formula with their estimates.
 
-On the other hand, the estimation of dispersion parameters by the h-likelihood can be bias due to the estimation of the regression parameters. Consequenlty, a penalization of the h-likelihood must be performed to get an unbiased profile h-likelihood of the dispersion parameters. Lee and Nelder (1996) proposed the adjusted profile h-likelihood, where the following penalization is applied,
-\deqn{h(\theta)=h+(1/2)*log[det(2\pi H^{-1})]}
-where \eqn{H} is the Hessian matrix of the model, and the terms \eqn{\beta} and \eqn{u} involved in the previous formula are replaced by their estimates.
-
-The method iterates between both estimation processes until convergence is reached.
+The method iterates between both estimation processes until convergence is reached based on the pre-established tolerance of the linear predictor.
 }
 
 \value{
@@ -96,12 +96,15 @@ I. Arostegui
 }
 
 \references{
-Lee Y. & Nelder J. A. (1996): Hierarchical generalized linear models, \emph{Journal of the Royal Statistical
-Society. Series B}, \bold{58}, 619-678
+Najera-Zuloaga, J.; Lee, D.-J.; Esteban, C. & Arostegui, I. (2023): Multidimensional beta-binomial regression model: a joint
+analysis of patient-reported outcomes. \emph{Statistical Modelling}, 0(0).
+
+Najera-Zuloaga J., Lee D.-J. & Arostegui, I. (2019): A beta-binomial mixed effects model approach for analysing longitudinal discrete and bounded outcomes. \emph{Biometrical Journal}, 61(3), 600-615.
 
 Najera-Zuloaga J., Lee D.-J. & Arostegui I. (2018): Comparison of beta-binomial regression model approaches to analyze health related quality of life data. \emph{Statistical Methods in Medical Research}, 27(10), 2989-3009.
 
-Najera-Zuloaga J., Lee D.-J. & Arostegui, I. (2019): A beta-binomial mixed effects model approach for analysing longitudinal discrete and bounded outcomes. \emph{Biometrical Journal}, 61(3), 600-615.
+Lee Y. & Nelder J. A. (1996): Hierarchical generalized linear models, \emph{Journal of the Royal Statistical
+Society. Series B}, \bold{58}, 619-678
 }
 
 \concept{rootSolve}
