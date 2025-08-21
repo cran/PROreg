@@ -112,7 +112,7 @@ Society. Series B}, \bold{58}, 619-678
 \concept{Matrix}
 
 \seealso{
-The \code{\link{multiroot}} and \code{\link{uniroot}} functions of the R-package \code{rootSolve} for the general Newton-Raphson algorithm.
+The \code{\link[rootSolve]{multiroot}} and \code{\link[stats]{uniroot}} functions for the general Newton-Raphson algorithm.
 }
 
 \examples{

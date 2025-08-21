@@ -66,9 +66,9 @@ Najera-Zuloaga J., Lee D.-J. & Arostegui I. (2017): Comparison of beta-binomial 
 \concept{rootSolve}
 \concept{numDeriv}
 \seealso{
-The \code{\link{multiroot}} and \code{\link{uniroot}} functions of the R-package \code{rootSolve} for the general Newton-Raphson algorithm.
+The \code{\link[rootSolve]{multiroot}} and \code{\link[stats]{uniroot}} functions for the general Newton-Raphson algorithm.
 
-\code{\link{BBmm}}.
+\code{\link{BBmm}}
 }
 
 \examples{

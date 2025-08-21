@@ -45,7 +45,7 @@ D.-J. Lee
 
 I. Arostegui
 
-This function depends on the function \code{\link{radarchart}} of the package \code{fmsb} created by Minato Nakazawa.
+This function depends on the function \code{\link[fmsb]{radarchart}} of the package \code{fmsb} created by Minato Nakazawa.
 
 }
 
@@ -55,7 +55,7 @@ Arostegui I., Nunez-Anton V. & Quintana J. M. (2013): On the recoding of continu
 
 \keyword{ fmsb }
 \seealso{
-As it is said in the author section, the function depends on the function \code{\link{radarchart}} of the package \code{fmsb}
+As it is said in the author section, the function depends on the function \code{\link[fmsb]{radarchart}} of the package \code{fmsb}
 }
 \examples{
 set.seed(5)
